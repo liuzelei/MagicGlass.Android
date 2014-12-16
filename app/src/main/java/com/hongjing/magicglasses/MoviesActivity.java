@@ -26,6 +26,28 @@ public class MoviesActivity extends ActionBarActivity {
                 Intent intent = new Intent();
                 intent.setClass(MoviesActivity.this, MoviePlayActivity.class);
 
+                Bundle bundle = new Bundle();
+                bundle.putString("file_path", "rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp");
+
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
+
+        Button btn_movie_b = (Button) findViewById(R.id.btn_movie_b);
+
+        btn_movie_b.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setClass(MoviesActivity.this, MoviePlayActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("file_path", "http://media.railscasts.com/assets/episodes/videos/417-foundation.mp4");
+
+                intent.putExtras(bundle);
+
                 startActivity(intent);
             }
         });

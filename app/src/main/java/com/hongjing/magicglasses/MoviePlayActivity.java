@@ -26,10 +26,12 @@ public class MoviePlayActivity extends ActionBarActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_movie_play);
 
+        Bundle bundle = getIntent().getExtras();
+        String file_path = bundle.getString("file_path");
 
         VideoView videoView =(VideoView) findViewById(R.id.movie_video_view);
 
-        Uri uri = Uri.parse("rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp");
+        Uri uri = Uri.parse(file_path);
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
