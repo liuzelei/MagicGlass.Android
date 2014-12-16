@@ -7,5 +7,7 @@
     <string name="title_activity_movies">MoviesActivity</string>
     <string name="title_activity_movie_play">MoviePlayActivity</string>
     <string name="title_activity_browser">BrowserActivity</string>
+    <string name="movie">电影</string>
+    <string name="browser">浏览器</string>
 
 </resources>

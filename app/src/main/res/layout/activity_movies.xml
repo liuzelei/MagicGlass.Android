@@ -6,4 +6,69 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.hongjing.magicglasses.MoviesActivity" >
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="最近播放"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="影片A"
+        android:id="@+id/btn_movie_a"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="影片B"
+        android:id="@+id/btn_movie_b"
+        android:layout_alignTop="@+id/btn_movie_a"
+        android:layout_toRightOf="@+id/btn_movie_a"
+        android:layout_toEndOf="@+id/btn_movie_a" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="影片C"
+        android:id="@+id/btn_movie_c"
+        android:layout_alignTop="@+id/btn_movie_b"
+        android:layout_toRightOf="@+id/btn_movie_b"
+        android:layout_toEndOf="@+id/btn_movie_b" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="热门推荐"
+        android:id="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_movie_a" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="D"
+        android:id="@+id/button4"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E"
+        android:id="@+id/button5"
+        android:layout_alignTop="@+id/button4"
+        android:layout_toRightOf="@+id/button4"
+        android:layout_toEndOf="@+id/button4" />
+
 </RelativeLayout>

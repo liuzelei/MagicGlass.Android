@@ -1,9 +1,12 @@
 package com.hongjing.magicglasses;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +15,29 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button btn_movie = (Button) findViewById(R.id.btn_movie);
+        Button btn_browser = (Button) findViewById(R.id.btn_browser);
+
+        btn_movie.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, MoviesActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
+        btn_browser.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, BrowserActivity.class);
+
+                startActivity(intent);
+            }
+        });
     }
 
 

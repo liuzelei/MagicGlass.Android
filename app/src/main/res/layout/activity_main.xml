@@ -9,8 +9,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="电影"
-        android:id="@+id/button"
+        android:text="@string/movie"
+        android:id="@+id/btn_movie"
         android:layout_below="@+id/imageView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -21,16 +21,17 @@
         android:id="@+id/imageView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button"
+        android:layout_alignRight="@+id/btn_movie"
+        android:layout_alignEnd="@+id/btn_movie"
         android:src="@drawable/logo" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="浏览器"
-        android:id="@+id/button2"
-        android:layout_alignTop="@+id/button"
-        android:layout_toRightOf="@+id/button"
-        android:layout_toEndOf="@+id/button" />
+        android:text="@string/browser"
+        android:id="@+id/btn_browser"
+        android:layout_alignTop="@+id/btn_movie"
+        android:layout_toRightOf="@+id/btn_movie"
+        android:layout_toEndOf="@+id/btn_movie" />
+
 </RelativeLayout>
