@@ -1,8 +1,8 @@
 package com.hongjing.magicglasses;
 
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -12,7 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
-public class BrowserActivity extends ActionBarActivity {
+public class BrowserActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
