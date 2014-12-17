@@ -3,10 +3,11 @@
     android:layout_height="match_parent"
     tools:context="com.hongjing.magicglasses.MoviePlayActivity">
 
-    <VideoView
+    <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/movie_video_view"
-        android:layout_centerVertical="true"
+        class="com.hongjing.magicglasses.CustomVideoView"
+        android:id="@+id/movie_view"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -29,7 +29,7 @@ public class MoviePlayActivity extends ActionBarActivity {
         Bundle bundle = getIntent().getExtras();
         String file_path = bundle.getString("file_path");
 
-        VideoView videoView =(VideoView) findViewById(R.id.movie_video_view);
+        VideoView videoView =(CustomVideoView) findViewById(R.id.movie_view);
 
         Uri uri = Uri.parse(file_path);
         MediaController mediaController = new MediaController(this);

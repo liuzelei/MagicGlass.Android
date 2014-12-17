@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 
@@ -15,7 +16,9 @@ public class MoviesActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置全屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_movies);
 
         Button btn_movie_a = (Button) findViewById(R.id.btn_movie_a);
@@ -27,7 +30,7 @@ public class MoviesActivity extends ActionBarActivity {
                 intent.setClass(MoviesActivity.this, MoviePlayActivity.class);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("file_path", "rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp");
+                bundle.putString("file_path", "http://resource.speakingsaver.com/media/open.mp4?_=1");
 
                 intent.putExtras(bundle);
 

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MagicGlasses</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">宏镜</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_movies">MoviesActivity</string>
-    <string name="title_activity_movie_play">MoviePlayActivity</string>
-    <string name="title_activity_browser">BrowserActivity</string>
+    <string name="title_activity_movies">宏镜</string>
+    <string name="title_activity_movie_play">宏镜</string>
+    <string name="title_activity_browser">宏镜</string>
     <string name="movie">电影</string>
     <string name="browser">浏览器</string>
 
