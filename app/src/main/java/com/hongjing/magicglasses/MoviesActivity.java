@@ -49,7 +49,7 @@ public class MoviesActivity extends Activity {
                 intent.setClass(MoviesActivity.this, MoviePlayActivity.class);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("file_path", "http://media.railscasts.com/assets/episodes/videos/417-foundation.mp4");
+                bundle.putString("file_path", "http://resource.speakingsaver.com/media/introduce_final_x264.mp4?_=2");
 
                 intent.putExtras(bundle);
 
