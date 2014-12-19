@@ -11,7 +11,7 @@
         android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
         android:text="返回"
-        android:textColor="#000000"/>
+        android:textColor="#ff236858"/>
 
 
 

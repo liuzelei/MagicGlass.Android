@@ -1,5 +1,6 @@
 package com.hongjing.magicglasses;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
@@ -9,15 +10,16 @@ import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Process;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Toast;
@@ -27,24 +29,28 @@ public class MoviePlayActivity extends Activity {
 
     private final String TAG = "main";
     private String file_path;
-    private SurfaceView sv;
+    private SurfaceView sv1;
+    private SurfaceView sv2;
     private Button btn_play, btn_pause, btn_replay, btn_stop;
     private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer2;
     private SeekBar seekBar;
     private int currentPosition = 0;
     private boolean isPlaying;
+    private LinearLayout mediaControl;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+//        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         //设置全屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //设置屏幕常亮
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_movie_play);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.my_customer_title);
+//        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.my_customer_title);
 
         Bundle bundle = getIntent().getExtras();
         file_path = bundle.getString("file_path");
@@ -59,8 +65,13 @@ public class MoviePlayActivity extends Activity {
 //        videoView.start();
 //        videoView.requestFocus();
 
+        mediaControl = (LinearLayout) findViewById(R.id.mediacontrol);
+
+        mediaControl.setVisibility(View.VISIBLE);
+
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        sv = (SurfaceView) findViewById(R.id.sv);
+        sv1 = (SurfaceView) findViewById(R.id.sv1);
+        sv2 = (SurfaceView) findViewById(R.id.sv2);
 
         btn_play = (Button) findViewById(R.id.btn_play);
         btn_pause = (Button) findViewById(R.id.btn_pause);
@@ -72,8 +83,12 @@ public class MoviePlayActivity extends Activity {
         btn_replay.setOnClickListener(click);
         btn_stop.setOnClickListener(click);
 
+        sv1.setOnClickListener(click);
+        sv2.setOnClickListener(click);
+
         // 为SurfaceHolder添加回调
-        sv.getHolder().addCallback(callback);
+        sv1.getHolder().addCallback(callback);
+        sv2.getHolder().addCallback(callback);
 
         // 为进度条添加进度更改事件
         seekBar.setOnSeekBarChangeListener(change);
@@ -88,6 +103,11 @@ public class MoviePlayActivity extends Activity {
             if(mediaPlayer != null && mediaPlayer.isPlaying()){
                 currentPosition = mediaPlayer.getCurrentPosition();
                 mediaPlayer.stop();
+            }
+
+            if(mediaPlayer2 != null && mediaPlayer2.isPlaying()) {
+                currentPosition = mediaPlayer2.getCurrentPosition();
+                mediaPlayer2.stop();
             }
         }
 
@@ -115,6 +135,10 @@ public class MoviePlayActivity extends Activity {
             if(mediaPlayer != null && mediaPlayer.isPlaying()) {
                 //设置当前播放的位置
                 mediaPlayer.seekTo(progress);
+            }
+
+            if(mediaPlayer2 != null && mediaPlayer2.isPlaying()) {
+                mediaPlayer2.seekTo(progress);
             }
         }
 
@@ -145,6 +169,24 @@ public class MoviePlayActivity extends Activity {
                 case R.id.btn_stop:
                     stop();
                     break;
+                case R.id.sv1:
+                    if(mediaControl.getVisibility() == View.VISIBLE) {
+                        mediaControl.setVisibility(View.INVISIBLE);
+                        actionBar.hide();
+                    }else {
+                        mediaControl.setVisibility(View.VISIBLE);
+                        actionBar.show();
+                    }
+                    break;
+                case R.id.sv2:
+                    if(mediaControl.getVisibility() == View.VISIBLE) {
+                        mediaControl.setVisibility(View.INVISIBLE);
+                        actionBar.hide();
+                    }else {
+                        mediaControl.setVisibility(View.VISIBLE);
+                        actionBar.show();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -154,18 +196,53 @@ public class MoviePlayActivity extends Activity {
 
     protected void play(final int msec) {
         try {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             // 设置播放的视频源
             Uri uri = Uri.parse(file_path);
+
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer2 = new MediaPlayer();
+
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//            mediaPlayer2.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+
             mediaPlayer.setDataSource(MoviePlayActivity.this, uri);
+            mediaPlayer2.setDataSource(MoviePlayActivity.this, uri);
+
             // 设置显示视频的SurfaceHolder
-            mediaPlayer.setDisplay(sv.getHolder());
+            mediaPlayer.setDisplay(sv2.getHolder());
+            mediaPlayer2.setDisplay(sv1.getHolder());
+
             mediaPlayer.prepareAsync();
+            mediaPlayer2.prepareAsync();
+
+            final Thread mediaPlay1Thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_DISPLAY);
+                    mediaPlayer.start();
+                }
+            });
+
+            final Thread mediaPlay2Thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_DISPLAY);
+                    mediaPlayer2.start();
+                }
+            });
+
             mediaPlayer.setOnPreparedListener(new OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    mediaPlayer.start();
+//                    mediaPlayer.start();
+                    mediaPlay1Thread.start();
+                    actionBar.hide();
+                    if(mediaControl.getVisibility() == View.VISIBLE) {
+                        mediaControl.setVisibility(View.INVISIBLE);
+                    }else {
+                        mediaControl.setVisibility(View.VISIBLE);
+                    }
                     // 按照初始位置播放
                     mediaPlayer.seekTo(msec);
                     // 设置进度条的最大进度为视频流的最大播放时长
@@ -192,6 +269,16 @@ public class MoviePlayActivity extends Activity {
                 }
             });
 
+            mediaPlayer2.setOnPreparedListener(new OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+//                    mediaPlayer2.start();
+                    mediaPlay2Thread.start();
+                    // 按照初始位置播放
+                    mediaPlayer2.seekTo(msec);
+                }
+            });
+
             mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
@@ -200,7 +287,25 @@ public class MoviePlayActivity extends Activity {
                 }
             });
 
+            mediaPlayer2.setOnCompletionListener(new OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // 在播放完毕被回调
+                    btn_play.setEnabled(true);
+                }
+            });
+
             mediaPlayer.setOnErrorListener(new OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    // 发生错误重新播放
+                    play(0);
+                    isPlaying = false;
+                    return false;
+                }
+            });
+
+            mediaPlayer2.setOnErrorListener(new OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
                     // 发生错误重新播放
@@ -219,20 +324,32 @@ public class MoviePlayActivity extends Activity {
         if(btn_pause.getText().toString().trim().equals("继续")) {
             btn_pause.setText("暂停");
             mediaPlayer.start();
-            Toast.makeText(this, "继续播放", 0).show();
+            mediaPlayer2.start();
+            Toast.makeText(this, "继续播放", Toast.LENGTH_LONG).show();
             return;
         }
         if(mediaPlayer != null && mediaPlayer.isPlaying()){
             mediaPlayer.pause();
             btn_pause.setText("继续");
-            Toast.makeText(this, "暂停播放", 0).show();
+            Toast.makeText(this, "暂停播放", Toast.LENGTH_LONG).show();
+        }
+        if(mediaPlayer2 != null && mediaPlayer2.isPlaying()) {
+            mediaPlayer2.pause();
+            btn_pause.setText("继续");
+            Toast.makeText(this, "暂停播放", Toast.LENGTH_LONG).show();
         }
     }
 
     protected void replay() {
         if(mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.seekTo(0);
-            Toast.makeText(this, "重新播放", 0).show();
+            Toast.makeText(this, "重新播放", Toast.LENGTH_LONG).show();
+            btn_pause.setText("暂停");
+            return;
+        }
+        if(mediaPlayer2 != null && mediaPlayer2.isPlaying()) {
+            mediaPlayer2.seekTo(0);
+            Toast.makeText(this, "重新播放", Toast.LENGTH_LONG).show();
             btn_pause.setText("暂停");
             return;
         }
@@ -248,6 +365,18 @@ public class MoviePlayActivity extends Activity {
             btn_play.setEnabled(true);
             isPlaying = false;
         }
+        if(mediaPlayer2 != null && mediaPlayer2.isPlaying()) {
+            mediaPlayer2.stop();
+            mediaPlayer2.release();
+            mediaPlayer2 = null;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        actionBar = this.getActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.DISPLAY_HOME_AS_UP);
     }
 
     @Override

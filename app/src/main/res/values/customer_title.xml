@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="WindowTitleBackground" >
-        <item name="android:background">@color/blue</item>
+        <item name="android:background">@color/lightgrey</item>
     </style>
     <style name="MyTheme" parent="android:Theme">
         <item name="android:windowTitleSize">40dp</item>

@@ -23,13 +23,26 @@ public class BrowserActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_browser);
 
-        WebView browser = (WebView) findViewById(R.id.browser_webView);
-        WebSettings webSettings = browser.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        WebView browser1 = (WebView) findViewById(R.id.browser_webView1);
+        WebView browser2 = (WebView) findViewById(R.id.browser_webView2);
 
-        browser.loadUrl("http://www.baidu.com");
+        WebSettings webSettings1 = browser1.getSettings();
+        webSettings1.setJavaScriptEnabled(true);
 
-        browser.setWebViewClient(new WebViewClient() {
+        WebSettings webSettings2 = browser2.getSettings();
+        webSettings2.setJavaScriptEnabled(true);
+
+        browser1.loadUrl("http://www.baidu.com");
+        browser2.loadUrl("http://www.baidu.com");
+
+        browser1.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
+        browser2.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;

@@ -3,8 +3,30 @@
     android:layout_height="match_parent"
     tools:context="com.hongjing.magicglasses.BrowserActivity">
 
-    <WebView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/browser_webView" />
+        android:layout_weight="1" >
+
+        <WebView
+            android:id="@+id/browser_webView1"
+            android:layout_margin="2dip"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:visibility="visible"
+            android:layout_weight="1"/>
+
+        <WebView
+            android:id="@+id/browser_webView2"
+            android:layout_margin="2dip"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
 </RelativeLayout>

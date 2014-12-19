@@ -1,5 +1,6 @@
 package com.hongjing.magicglasses;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -21,6 +22,9 @@ public class MainActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.show();
 
         Button btn_movie = (Button) findViewById(R.id.btn_movie);
         Button btn_browser = (Button) findViewById(R.id.btn_browser);
@@ -46,6 +50,12 @@ public class MainActivity extends Activity {
         });
     }
 
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        ActionBar actionBar = this.getActionBar();
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
