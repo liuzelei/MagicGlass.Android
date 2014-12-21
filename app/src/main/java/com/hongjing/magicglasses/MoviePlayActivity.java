@@ -206,6 +206,8 @@ public class MoviePlayActivity extends Activity {
 //            mediaPlayer2.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
 
+
+
             mediaPlayer.setDataSource(MoviePlayActivity.this, uri);
             mediaPlayer2.setDataSource(MoviePlayActivity.this, uri);
 

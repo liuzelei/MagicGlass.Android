@@ -1,13 +1,39 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hongjing.magicglasses.BrowserActivity">
+    android:orientation="vertical"
+    tools:context=".BrowserActivity" >
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/web_url_input"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:hint="请输入网址"
+            android:inputType="textUri"
+            />
+        <Button
+            android:id="@+id/btn_url_goto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="进入"
+            />
+    </LinearLayout>
+
+
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1" >
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
         <WebView
             android:id="@+id/browser_webView1"
@@ -29,4 +55,5 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+
+</LinearLayout>
