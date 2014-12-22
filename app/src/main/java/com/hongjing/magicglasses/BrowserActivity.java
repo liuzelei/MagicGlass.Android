@@ -3,10 +3,12 @@ package com.hongjing.magicglasses;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,6 +108,20 @@ public class BrowserActivity extends Activity implements ScrollViewListener {
         scrollView1.setScrollViewListener(this);
         scrollView2 = (ObservableScrollView) findViewById(R.id.scrollView2);
         scrollView2.setScrollViewListener(this);
+
+//        DisplayMetrics dm = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(dm);
+//        int with = dm.widthPixels;
+//        int height = dm.heightPixels;
+//        int real_height = height / 4;
+//        LinearLayout.LayoutParams linearParams1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        linearParams1.setMargins(0, real_height, with / 2, real_height);
+//
+//        scrollView1.setLayoutParams(linearParams1);
+
+//        LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        linearParams.setMargins(with / 2, real_height, 0, real_height);
+//        scrollView2.setLayoutParams(linearParams);
     }
 
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -186,5 +202,22 @@ public class BrowserActivity extends Activity implements ScrollViewListener {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(BrowserActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            if(browser1 != null) {
+                browser1.destroy();
+            }
+            if(browser2 != null) {
+                browser2.destroy();
+            }
+            return true;
+        }
+        return false;
     }
 }
