@@ -3,16 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MoviesPlayActivity" >
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1" >
+        android:layout_height="fill_parent" >
         <SurfaceView
             android:id="@+id/sv1"
-            android:layout_margin="0dip"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
@@ -30,63 +28,112 @@
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/mediacontrol"
-        android:gravity="bottom"
-        android:background="#e0000000"
-        android:layout_gravity="bottom"
         android:layout_weight="1"
+        android:gravity="bottom"
         android:layout_alignParentTop="false"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
+        android:background="#e0000000"
+        android:id="@+id/mediacontrol1">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <SeekBar
+            android:id="@+id/seekBar1"
+            android:layout_margin="0dip"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            android:visibility="visible"
+            android:layout_weight="1" />
+
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_margin="0dip"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="true"
+        android:background="#e0000000"
+        android:id="@+id/mediacontrol2">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
+            android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btn_play"
-                android:layout_width="0dip"
+                android:id="@+id/btn_play1"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:text="播放" />
 
             <Button
-                android:id="@+id/btn_pause"
-                android:layout_width="0dip"
+                android:id="@+id/btn_pause1"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:text="暂停" />
 
             <Button
-                android:id="@+id/btn_replay"
-                android:layout_width="0dip"
+                android:id="@+id/btn_replay1"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:text="重播" />
 
             <Button
-                android:id="@+id/btn_stop"
-                android:layout_width="0dip"
+                android:id="@+id/btn_stop1"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:text="停止" />
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_margin="0dip"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btn_play2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="播放" />
+
+            <Button
+                android:id="@+id/btn_pause2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="暂停" />
+
+            <Button
+                android:id="@+id/btn_replay2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="重播" />
+
+            <Button
+                android:id="@+id/btn_stop2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="停止" />
+
+        </LinearLayout>
+
     </LinearLayout>
+
 
 
 </RelativeLayout>

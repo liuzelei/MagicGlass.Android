@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,13 +20,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-public class BrowserActivity extends Activity {
+public class BrowserActivity extends Activity implements ScrollViewListener {
 
     private WebView browser1;
     private WebView browser2;
     private ActionBar actionBar;
-    private Button btn_url_goto;
-    private EditText web_url_input;
+    private Button btn_url_goto1, btn_url_goto2;
+    private EditText web_url_input1, web_url_input2;
+    private String url;
+    private ObservableScrollView scrollView1 = null;
+    private ObservableScrollView scrollView2 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,36 +52,102 @@ public class BrowserActivity extends Activity {
         browser1.loadUrl("http://www.baidu.com");
         browser2.loadUrl("http://www.baidu.com");
 
-        web_url_input = (EditText) findViewById(R.id.web_url_input);
+        web_url_input1 = (EditText) findViewById(R.id.web_url_input1);
+        web_url_input2 = (EditText) findViewById(R.id.web_url_input2);
 
-        btn_url_goto = (Button) findViewById(R.id.btn_url_goto);
-        btn_url_goto.setOnClickListener(clik);
+        web_url_input1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(web_url_input1.hasFocus()) {
+                    web_url_input2.setText(s);
+                }
+            }
+        });
+
+        web_url_input2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(web_url_input2.hasFocus()) {
+                    web_url_input1.setText(s);
+                }
+            }
+        });
+
+        btn_url_goto1 = (Button) findViewById(R.id.btn_url_goto1);
+        btn_url_goto2 = (Button) findViewById(R.id.btn_url_goto2);
+
+        btn_url_goto1.setOnClickListener(clik);
+        btn_url_goto2.setOnClickListener(clik);
 
         browser1.setWebViewClient(client);
         browser2.setWebViewClient(client);
+
+        scrollView1 = (ObservableScrollView) findViewById(R.id.scrollView1);
+        scrollView1.setScrollViewListener(this);
+        scrollView2 = (ObservableScrollView) findViewById(R.id.scrollView2);
+        scrollView2.setScrollViewListener(this);
+    }
+
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if(scrollView == scrollView1) {
+            scrollView2.scrollTo(x, y);
+        } else if(scrollView == scrollView2) {
+            scrollView1.scrollTo(x, y);
+        }
     }
 
     private Button.OnClickListener clik = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(v.getId() == R.id.btn_url_goto) {
-                String url = web_url_input.getText().toString();
-                if(!(url.startsWith("http://") || url.startsWith("https://"))){
-                    url = "http://" + url;
-                }
-                if(URLUtil.isNetworkUrl(url) && URLUtil.isValidUrl(url)) {
-                    browser1.loadUrl(url);
-                    browser2.loadUrl(url);
-                }else{
-                    new AlertDialog.Builder(BrowserActivity.this)
-                            .setTitle("警告")
-                            .setMessage("不是有效的网址")
-                            .create()
-                            .show();
-                }
+            switch (v.getId()){
+                case R.id.btn_url_goto1:
+                   url = web_url_input1.getText().toString().trim();
+                   break;
+                case R.id.btn_url_goto2:
+                    url = web_url_input2.getText().toString().trim();
+                    break;
+                default:
+                    break;
             }
+            goto_url(url);
         }
     };
+
+    protected void goto_url(String url) {
+        if(!(url.startsWith("http://") || url.startsWith("https://"))){
+            url = "http://" + url;
+        }
+        if(URLUtil.isNetworkUrl(url) && URLUtil.isValidUrl(url)) {
+            browser1.loadUrl(url);
+            browser2.loadUrl(url);
+        }else{
+            new AlertDialog.Builder(BrowserActivity.this)
+                    .setTitle("警告")
+                    .setMessage("不是有效的网址")
+                    .create()
+                    .show();
+        }
+    }
 
     private WebViewClient client = new WebViewClient() {
         @Override

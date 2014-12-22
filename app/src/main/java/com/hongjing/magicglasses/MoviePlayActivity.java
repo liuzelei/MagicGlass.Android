@@ -27,17 +27,15 @@ import android.widget.Toast;
 
 public class MoviePlayActivity extends Activity {
 
-    private final String TAG = "main";
     private String file_path;
     private SurfaceView sv1;
     private SurfaceView sv2;
-    private Button btn_play, btn_pause, btn_replay, btn_stop;
-    private MediaPlayer mediaPlayer;
-    private MediaPlayer mediaPlayer2;
-    private SeekBar seekBar;
+    private Button btn_play1, btn_pause1, btn_replay1, btn_stop1, btn_play2, btn_pause2, btn_replay2, btn_stop2;
+    private MediaPlayer mediaPlayer, mediaPlayer2;
+    private SeekBar seekBar1, seekBar2;
     private int currentPosition = 0;
     private boolean isPlaying;
-    private LinearLayout mediaControl;
+    private LinearLayout mediaControl1, mediaControl2;
     private ActionBar actionBar;
 
     @Override
@@ -54,34 +52,39 @@ public class MoviePlayActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         file_path = bundle.getString("file_path");
-//
-//        VideoView videoView =(CustomVideoView) findViewById(R.id.movie_view);
-//
-//        Uri uri = Uri.parse(file_path);
-//        MediaController mediaController = new MediaController(this);
-//        mediaController.setAnchorView(videoView);
-//        videoView.setMediaController(mediaController);
-//        videoView.setVideoURI(uri);
-//        videoView.start();
-//        videoView.requestFocus();
 
-        mediaControl = (LinearLayout) findViewById(R.id.mediacontrol);
 
-        mediaControl.setVisibility(View.VISIBLE);
+        mediaControl1 = (LinearLayout) findViewById(R.id.mediacontrol1);
+        mediaControl2 = (LinearLayout) findViewById(R.id.mediacontrol2);
 
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        mediaControl1.setVisibility(View.VISIBLE);
+        mediaControl2.setVisibility(View.VISIBLE);
+
+        seekBar1 = (SeekBar) findViewById(R.id.seekBar1);
+        seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
+
         sv1 = (SurfaceView) findViewById(R.id.sv1);
         sv2 = (SurfaceView) findViewById(R.id.sv2);
 
-        btn_play = (Button) findViewById(R.id.btn_play);
-        btn_pause = (Button) findViewById(R.id.btn_pause);
-        btn_replay = (Button) findViewById(R.id.btn_replay);
-        btn_stop = (Button) findViewById(R.id.btn_stop);
+        btn_play1 = (Button) findViewById(R.id.btn_play1);
+        btn_pause1 = (Button) findViewById(R.id.btn_pause1);
+        btn_replay1 = (Button) findViewById(R.id.btn_replay1);
+        btn_stop1 = (Button) findViewById(R.id.btn_stop1);
 
-        btn_play.setOnClickListener(click);
-        btn_pause.setOnClickListener(click);
-        btn_replay.setOnClickListener(click);
-        btn_stop.setOnClickListener(click);
+        btn_play2 = (Button) findViewById(R.id.btn_play2);
+        btn_pause2 = (Button) findViewById(R.id.btn_pause2);
+        btn_replay2 = (Button) findViewById(R.id.btn_replay2);
+        btn_stop2 = (Button) findViewById(R.id.btn_stop2);
+
+        btn_play1.setOnClickListener(click);
+        btn_pause1.setOnClickListener(click);
+        btn_replay1.setOnClickListener(click);
+        btn_stop1.setOnClickListener(click);
+
+        btn_play2.setOnClickListener(click);
+        btn_pause2.setOnClickListener(click);
+        btn_replay2.setOnClickListener(click);
+        btn_stop2.setOnClickListener(click);
 
         sv1.setOnClickListener(click);
         sv2.setOnClickListener(click);
@@ -91,7 +94,8 @@ public class MoviePlayActivity extends Activity {
         sv2.getHolder().addCallback(callback);
 
         // 为进度条添加进度更改事件
-        seekBar.setOnSeekBarChangeListener(change);
+        seekBar1.setOnSeekBarChangeListener(change);
+        seekBar2.setOnSeekBarChangeListener(change);
 
     }
 
@@ -157,33 +161,41 @@ public class MoviePlayActivity extends Activity {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.btn_play:
+                case R.id.btn_play1:
+                case R.id.btn_play2:
                     play(0);
                     break;
-                case R.id.btn_pause:
+                case R.id.btn_pause1:
+                case R.id.btn_pause2:
                     pause();
                     break;
-                case R.id.btn_replay:
+                case R.id.btn_replay1:
+                case R.id.btn_replay2:
                     replay();
                     break;
-                case R.id.btn_stop:
+                case R.id.btn_stop1:
+                case R.id.btn_stop2:
                     stop();
                     break;
                 case R.id.sv1:
-                    if(mediaControl.getVisibility() == View.VISIBLE) {
-                        mediaControl.setVisibility(View.INVISIBLE);
+                    if(mediaControl1.getVisibility() == View.VISIBLE) {
+                        mediaControl1.setVisibility(View.INVISIBLE);
+                        mediaControl2.setVisibility(View.INVISIBLE);
                         actionBar.hide();
                     }else {
-                        mediaControl.setVisibility(View.VISIBLE);
+                        mediaControl1.setVisibility(View.VISIBLE);
+                        mediaControl2.setVisibility(View.VISIBLE);
                         actionBar.show();
                     }
                     break;
                 case R.id.sv2:
-                    if(mediaControl.getVisibility() == View.VISIBLE) {
-                        mediaControl.setVisibility(View.INVISIBLE);
+                    if(mediaControl1.getVisibility() == View.VISIBLE) {
+                        mediaControl1.setVisibility(View.INVISIBLE);
+                        mediaControl2.setVisibility(View.INVISIBLE);
                         actionBar.hide();
                     }else {
-                        mediaControl.setVisibility(View.VISIBLE);
+                        mediaControl1.setVisibility(View.VISIBLE);
+                        mediaControl2.setVisibility(View.VISIBLE);
                         actionBar.show();
                     }
                     break;
@@ -203,10 +215,7 @@ public class MoviePlayActivity extends Activity {
             mediaPlayer2 = new MediaPlayer();
 
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//            mediaPlayer2.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-
-
+            mediaPlayer2.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
             mediaPlayer.setDataSource(MoviePlayActivity.this, uri);
             mediaPlayer2.setDataSource(MoviePlayActivity.this, uri);
@@ -240,15 +249,18 @@ public class MoviePlayActivity extends Activity {
 //                    mediaPlayer.start();
                     mediaPlay1Thread.start();
                     actionBar.hide();
-                    if(mediaControl.getVisibility() == View.VISIBLE) {
-                        mediaControl.setVisibility(View.INVISIBLE);
+                    if(mediaControl1.getVisibility() == View.VISIBLE) {
+                        mediaControl1.setVisibility(View.INVISIBLE);
+                        mediaControl2.setVisibility(View.INVISIBLE);
                     }else {
-                        mediaControl.setVisibility(View.VISIBLE);
+                        mediaControl1.setVisibility(View.VISIBLE);
+                        mediaControl2.setVisibility(View.VISIBLE);
                     }
                     // 按照初始位置播放
                     mediaPlayer.seekTo(msec);
                     // 设置进度条的最大进度为视频流的最大播放时长
-                    seekBar.setMax(mediaPlayer.getDuration());
+                    seekBar1.setMax(mediaPlayer.getDuration());
+                    seekBar2.setMax(mediaPlayer.getDuration());
                     // 开始线程，更新进度条的刻度
                     new Thread() {
                         @Override
@@ -257,7 +269,8 @@ public class MoviePlayActivity extends Activity {
                                 isPlaying = true;
                                 while (isPlaying) {
                                     int current = mediaPlayer.getCurrentPosition();
-                                    seekBar.setProgress(current);
+                                    seekBar1.setProgress(current);
+                                    seekBar2.setProgress(current);
                                     sleep(500);
                                 }
                             } catch (Exception e) {
@@ -267,7 +280,8 @@ public class MoviePlayActivity extends Activity {
 
                     }.start();
 
-                    btn_play.setEnabled(false);
+                    btn_play1.setEnabled(false);
+                    btn_play2.setEnabled(false);
                 }
             });
 
@@ -285,7 +299,8 @@ public class MoviePlayActivity extends Activity {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     // 在播放完毕被回调
-                    btn_play.setEnabled(true);
+                    btn_play1.setEnabled(true);
+                    btn_play2.setEnabled(true);
                 }
             });
 
@@ -293,7 +308,8 @@ public class MoviePlayActivity extends Activity {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     // 在播放完毕被回调
-                    btn_play.setEnabled(true);
+                    btn_play1.setEnabled(true);
+                    btn_play2.setEnabled(true);
                 }
             });
 
@@ -323,8 +339,9 @@ public class MoviePlayActivity extends Activity {
     }
 
     protected void pause() {
-        if(btn_pause.getText().toString().trim().equals("继续")) {
-            btn_pause.setText("暂停");
+        if(btn_pause1.getText().toString().trim().equals("继续") || btn_pause2.getText().toString().trim().equals("继续")) {
+            btn_pause1.setText("暂停");
+            btn_pause2.setText("暂停");
             mediaPlayer.start();
             mediaPlayer2.start();
             Toast.makeText(this, "继续播放", Toast.LENGTH_LONG).show();
@@ -332,12 +349,14 @@ public class MoviePlayActivity extends Activity {
         }
         if(mediaPlayer != null && mediaPlayer.isPlaying()){
             mediaPlayer.pause();
-            btn_pause.setText("继续");
+            btn_pause1.setText("继续");
+            btn_pause2.setText("继续");
             Toast.makeText(this, "暂停播放", Toast.LENGTH_LONG).show();
         }
         if(mediaPlayer2 != null && mediaPlayer2.isPlaying()) {
             mediaPlayer2.pause();
-            btn_pause.setText("继续");
+            btn_pause1.setText("继续");
+            btn_pause2.setText("继续");
             Toast.makeText(this, "暂停播放", Toast.LENGTH_LONG).show();
         }
     }
@@ -346,13 +365,15 @@ public class MoviePlayActivity extends Activity {
         if(mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.seekTo(0);
             Toast.makeText(this, "重新播放", Toast.LENGTH_LONG).show();
-            btn_pause.setText("暂停");
+            btn_pause1.setText("暂停");
+            btn_pause2.setText("暂停");
             return;
         }
         if(mediaPlayer2 != null && mediaPlayer2.isPlaying()) {
             mediaPlayer2.seekTo(0);
             Toast.makeText(this, "重新播放", Toast.LENGTH_LONG).show();
-            btn_pause.setText("暂停");
+            btn_pause1.setText("暂停");
+            btn_pause2.setText("暂停");
             return;
         }
         isPlaying = false;
@@ -364,7 +385,8 @@ public class MoviePlayActivity extends Activity {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
-            btn_play.setEnabled(true);
+            btn_play1.setEnabled(true);
+            btn_play2.setEnabled(true);
             isPlaying = false;
         }
         if(mediaPlayer2 != null && mediaPlayer2.isPlaying()) {
