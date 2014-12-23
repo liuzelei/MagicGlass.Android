@@ -6,6 +6,10 @@
     <string name="title_activity_movies">宏镜</string>
     <string name="title_activity_movie_play">宏镜</string>
     <string name="title_activity_browser">宏镜</string>
-    <string name="movie">电影</string>
+    <string name="movie">网络视频</string>
     <string name="browser">浏览器</string>
+    <string name="local_movie">本地视频</string>
+    <string name="title_activity_local_movie">宏镜</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

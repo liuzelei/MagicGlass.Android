@@ -28,6 +28,7 @@ import android.widget.Toast;
 public class MoviePlayActivity extends Activity {
 
     private String file_path;
+    private String file_source;
     private SurfaceView sv1;
     private SurfaceView sv2;
     private Button btn_play1, btn_pause1, btn_replay1, btn_stop1, btn_play2, btn_pause2, btn_replay2, btn_stop2;
@@ -52,6 +53,7 @@ public class MoviePlayActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         file_path = bundle.getString("file_path");
+        file_source = bundle.getString("file_source");
 
 
         mediaControl1 = (LinearLayout) findViewById(R.id.mediacontrol1);
@@ -209,16 +211,20 @@ public class MoviePlayActivity extends Activity {
     protected void play(final int msec) {
         try {
             // 设置播放的视频源
-            Uri uri = Uri.parse(file_path);
-
             mediaPlayer = new MediaPlayer();
             mediaPlayer2 = new MediaPlayer();
 
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer2.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-            mediaPlayer.setDataSource(MoviePlayActivity.this, uri);
-            mediaPlayer2.setDataSource(MoviePlayActivity.this, uri);
+            if(file_source.equals("local")) {
+                mediaPlayer.setDataSource(file_path);
+                mediaPlayer2.setDataSource(file_path);
+            } else {
+                Uri uri = Uri.parse(file_path);
+                mediaPlayer.setDataSource(MoviePlayActivity.this, uri);
+                mediaPlayer2.setDataSource(MoviePlayActivity.this, uri);
+            }
 
             // 设置显示视频的SurfaceHolder
             mediaPlayer.setDisplay(sv2.getHolder());
@@ -246,8 +252,8 @@ public class MoviePlayActivity extends Activity {
             mediaPlayer.setOnPreparedListener(new OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-//                    mediaPlayer.start();
                     mediaPlay1Thread.start();
+
                     actionBar.hide();
                     if(mediaControl1.getVisibility() == View.VISIBLE) {
                         mediaControl1.setVisibility(View.INVISIBLE);
@@ -316,20 +322,22 @@ public class MoviePlayActivity extends Activity {
             mediaPlayer.setOnErrorListener(new OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
-                    // 发生错误重新播放
-                    play(0);
+//                    mp.stop();
+//                    mp.release();
+                    mediaPlayer = null;
                     isPlaying = false;
-                    return false;
+                    return true;
                 }
             });
 
             mediaPlayer2.setOnErrorListener(new OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
-                    // 发生错误重新播放
-                    play(0);
+//                    mp.stop();
+//                    mp.release();
+                    mediaPlayer2 = null;
                     isPlaying = false;
-                    return false;
+                    return true;
                 }
             });
 
@@ -401,6 +409,11 @@ public class MoviePlayActivity extends Activity {
         super.onStart();
         actionBar = this.getActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.DISPLAY_HOME_AS_UP);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
     }
 
     @Override

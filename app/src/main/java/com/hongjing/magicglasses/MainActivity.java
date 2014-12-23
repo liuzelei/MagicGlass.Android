@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
 
         Button btn_movie = (Button) findViewById(R.id.btn_movie);
         Button btn_browser = (Button) findViewById(R.id.btn_browser);
+        Button btn_local = (Button) findViewById(R.id.btn_local);
 
         btn_movie.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -44,6 +45,16 @@ public class MainActivity extends Activity {
             public void onClick(View v){
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, BrowserActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
+        btn_local.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, LocalMovieActivity.class);
 
                 startActivity(intent);
             }

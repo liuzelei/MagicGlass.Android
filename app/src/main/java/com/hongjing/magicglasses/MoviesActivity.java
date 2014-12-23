@@ -35,6 +35,7 @@ public class MoviesActivity extends Activity {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("file_path", "http://resource.speakingsaver.com/media/open.mp4?_=1");
+                bundle.putString("file_source", "network");
 
                 intent.putExtras(bundle);
 
@@ -52,6 +53,7 @@ public class MoviesActivity extends Activity {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("file_path", "http://resource.speakingsaver.com/media/introduce_final_x264.mp4?_=2");
+                bundle.putString("file_source", "network");
 
                 intent.putExtras(bundle);
 
